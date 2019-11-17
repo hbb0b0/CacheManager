@@ -12,15 +12,83 @@ namespace CacheManager.Examples
     {
         private static void Main()
         {
-            EventsExample();
-            UnityInjectionExample();
-            UnityInjectionExample_Advanced();
-            SimpleCustomBuildConfigurationUsingConfigBuilder();
-            SimpleCustomBuildConfigurationUsingFactory();
-            UpdateTest();
-            UpdateCounterTest();
-            LoggingSample();
+            //EventsExample();
+            //UnityInjectionExample();
+            //UnityInjectionExample_Advanced();
+            // SimpleCustomBuildConfigurationUsingConfigBuilder();
+            //SimpleCustomBuildConfigurationUsingFactory();
+            //UpdateTest();
+            //UpdateCounterTest();
+
+            //LoggingSample();
+
+            UpdateTestExpireTime();
+
+            Console.Read();
         }
+
+
+        public static void UpdateTestExpireTime()
+        {
+            var cache = CacheFactory.Build<string>(s => s.WithDictionaryHandle());
+
+            cache.OnRemoveByHandle += Cache_OnRemoveByHandle;
+
+            Console.WriteLine("Testing update...");
+
+            //if (!cache.TryUpdate("test", v => "item has not yet been added", out string newValue))
+            //{
+            //    Console.WriteLine("Value not added?: {0}", newValue == null);
+            //}
+            string myKey = "test1";
+            CacheManager.Core.CacheItem<string> cacheItem = new CacheItem<string>(myKey,"100",ExpirationMode.Absolute,TimeSpan.FromMilliseconds(50000));
+            cache.Add(cacheItem);
+            bool needUpdate = true;
+            int i = 0;
+            string dbValue="";
+            while (needUpdate)
+            {
+                Thread.Sleep(2000);
+                var currentCacheItem = cache.GetCacheItem(myKey);
+                if (currentCacheItem == null)
+                {
+                    break;
+                }
+                Console.WriteLine($"get:{ cache.Get<string>(myKey)}  CreatedUtc:{ currentCacheItem.CreatedUtc} ExpirationMode:{currentCacheItem.ExpirationMode} ExpirationTimeout:{ currentCacheItem.ExpirationTimeout.Milliseconds} LastAccessedUtc:{currentCacheItem.LastAccessedUtc}");
+                var result = cache.TryUpdate(myKey, p =>
+                {
+                    return i.ToString();
+                }, out dbValue);
+                /*
+                Console.WriteLine($"{result}:{dbValue}");
+                if(result==false)
+                {
+                    needUpdate = false;
+                }
+                i++;
+                */
+                
+
+
+            }
+
+           
+
+        }
+
+        /// <summary>
+        /// 当缓存项被移除时触发
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private static void Cache_OnRemoveByHandle(object sender, Core.Internal.CacheItemRemovedEventArgs e)
+        {
+            Console.WriteLine($"Cache_OnRemove1 :{sender.ToString()}:{e.Key}");
+        }
+
+       
+
+       
 
 #if !NETCOREAPP
 

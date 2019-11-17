@@ -265,8 +265,13 @@ namespace CacheManager.Core
                 : $"'{Key}', exp:{ExpirationMode.ToString()} {ExpirationTimeout}, lastAccess:{LastAccessedUtc}";
         }
 
+        //如果是绝对过期时间了，应该用CreatedUtc而不是UtcNow
+        /*
         internal CacheItem<T> WithExpiration(ExpirationMode mode, TimeSpan timeout, bool usesHandleDefault = true) =>
             new CacheItem<T>(Key, Region, Value, mode, timeout, mode == ExpirationMode.Absolute ? DateTime.UtcNow : CreatedUtc, LastAccessedUtc, usesHandleDefault);
+         */
+        internal CacheItem<T> WithExpiration(ExpirationMode mode, TimeSpan timeout, bool usesHandleDefault = true) =>
+            new CacheItem<T>(Key, Region, Value, mode, timeout, mode == ExpirationMode.Absolute ?  CreatedUtc:DateTime.UtcNow, LastAccessedUtc, usesHandleDefault);
 
         /// <summary>
         /// Creates a copy of the current cache item and sets a new absolute expiration date.
@@ -358,5 +363,14 @@ namespace CacheManager.Core
         /// <returns>The new instance of the cache item.</returns>
         public CacheItem<T> WithCreated(DateTime created) =>
             new CacheItem<T>(Key, Region, Value, ExpirationMode, ExpirationTimeout, created, LastAccessedUtc, UsesExpirationDefaults);
+
+        /// <summary>
+        /// WithCreatedAndValue
+        /// </summary>
+        /// <param name="created"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public CacheItem<T> WithCreatedAndValue(DateTime created,T value) =>
+            new CacheItem<T>(Key, Region, value, ExpirationMode, ExpirationTimeout, created, LastAccessedUtc, UsesExpirationDefaults);
     }
 }
