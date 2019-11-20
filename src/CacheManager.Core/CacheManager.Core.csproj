@@ -5,6 +5,7 @@
     <TargetFrameworks>net45;netstandard2.0</TargetFrameworks>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
     <PackageTags>Caching;Cache;CacheManager;Distributed Cache;StackExchange Redis;Memcached</PackageTags>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <ItemGroup Condition=" '$(TargetFramework)' == 'net45' ">
     <Reference Include="System.Configuration" />

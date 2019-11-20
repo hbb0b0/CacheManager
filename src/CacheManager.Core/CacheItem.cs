@@ -264,7 +264,7 @@ namespace CacheManager.Core
                 $"'{Region}:{Key}', exp:{ExpirationMode.ToString()} {ExpirationTimeout}, lastAccess:{LastAccessedUtc}"
                 : $"'{Key}', exp:{ExpirationMode.ToString()} {ExpirationTimeout}, lastAccess:{LastAccessedUtc}";
         }
-
+        //20191108 HACK hbb0b0
         //如果是绝对过期时间了，应该用CreatedUtc而不是UtcNow
         /*
         internal CacheItem<T> WithExpiration(ExpirationMode mode, TimeSpan timeout, bool usesHandleDefault = true) =>
@@ -364,6 +364,7 @@ namespace CacheManager.Core
         public CacheItem<T> WithCreated(DateTime created) =>
             new CacheItem<T>(Key, Region, Value, ExpirationMode, ExpirationTimeout, created, LastAccessedUtc, UsesExpirationDefaults);
 
+        //20191108 HACK hbb0b0
         /// <summary>
         /// WithCreatedAndValue
         /// </summary>

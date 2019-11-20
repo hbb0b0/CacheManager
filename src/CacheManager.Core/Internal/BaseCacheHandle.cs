@@ -105,7 +105,8 @@ namespace CacheManager.Core.Internal
             lock (_updateLock)
             {
                 var original = GetCacheItem(key);
-                Console.WriteLine($"get *******{original.CreatedUtc}********");
+                //20191108 HACK hbb0b0
+                //Console.WriteLine($"get *******{original.CreatedUtc}********");
                 if (original == null)
                 {
                     return UpdateItemResult.ForItemDidNotExist<TCacheValue>();
@@ -117,11 +118,11 @@ namespace CacheManager.Core.Internal
                 {
                     return UpdateItemResult.ForFactoryReturnedNull<TCacheValue>();
                 }
-
+                //20191108 HACK hbb0b0
                 //20191117.原先的createDate需要保留，否则 更新ExpirationMode.Absolute，会导致createDate不停地被更新
                 //var newItem = original.WithValue(newValue);
                 var newItem = original.WithCreatedAndValue(original.CreatedUtc, newValue);
-                Console.WriteLine($"new *******{original.CreatedUtc}********");
+                //Console.WriteLine($"new *******{original.CreatedUtc}********");
                 newItem.LastAccessedUtc = DateTime.UtcNow;
                 Console.WriteLine(newItem.CreatedUtc);
                 Put(newItem);

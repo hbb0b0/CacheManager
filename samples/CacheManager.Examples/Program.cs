@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Threading;
+using System.Threading.Tasks;
 using CacheManager.Core;
 using Microsoft.Extensions.Logging;
 using Unity;
 using Unity.Injection;
 using Unity.Lifetime;
-
 namespace CacheManager.Examples
 {
     public class Program
@@ -22,7 +22,9 @@ namespace CacheManager.Examples
 
             //LoggingSample();
 
-            UpdateTestExpireTime();
+            //UpdateTestExpireTime();
+
+            MultiThread();
 
             Console.Read();
         }
@@ -73,6 +75,35 @@ namespace CacheManager.Examples
             }
 
            
+
+        }
+
+        public static void MultiThread()
+        {
+
+            var cache = CacheFactory.Build<int>(s => s.WithDictionaryHandle());
+
+            string testKey = "testKey";
+            Task[] tasks = new Task[1000];
+            for (int i = 0; i < 1000; i++)
+            {
+
+
+                var t = Task.Run(() =>
+                {
+                    cache.AddOrUpdate("", 1, (p) =>
+                    {
+
+                        return p + 1;
+                    });
+                });
+                tasks[i] = t;
+            }
+
+            Task.WaitAll(tasks);
+
+            Console.WriteLine(cache.Get<int>(testKey));
+
 
         }
 
