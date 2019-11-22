@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using CacheManager.Core.Logging;
@@ -43,6 +44,21 @@ namespace CacheManager.Core.Internal
         /// </summary>
         /// <value>The count.</value>
         public override int Count => _cache.Count;
+
+        /// <summary>
+        /// 20191121 HACK hbb0b0
+        /// 添加获取内部数据用于持久化
+        /// </summary>
+        /// <returns></returns>
+        public override List<KeyValuePair<string, CacheItem<TCacheValue>>> GetInternalData()
+        {
+            List<KeyValuePair<string, CacheItem<TCacheValue>>> dataList = new List<KeyValuePair<string, CacheItem<TCacheValue>>>();
+            _cache.ToList().ForEach(p => {
+                dataList.Add(p);
+            });
+           
+           return dataList; 
+        }
 
         /// <inheritdoc />
         protected override ILogger Logger { get; }

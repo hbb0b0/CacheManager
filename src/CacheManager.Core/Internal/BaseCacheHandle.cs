@@ -1,5 +1,6 @@
 ﻿using System;
 using CacheManager.Core.Logging;
+using System.Collections.Generic;
 using static CacheManager.Core.Utility.Guard;
 
 namespace CacheManager.Core.Internal
@@ -65,6 +66,15 @@ namespace CacheManager.Core.Internal
         /// <value>The count.</value>
         public abstract int Count { get; }
 
+
+        /// <summary>
+        /// 20191121 HACK hbb0b0
+        /// 添加获取内部数据用于持久化
+        /// GetInternalData
+        /// </summary>
+        /// <returns></returns>
+        public abstract List<KeyValuePair<string, CacheItem<TCacheValue>>> GetInternalData();
+
         /// <summary>
         /// Gets the cache stats object.
         /// </summary>
@@ -124,7 +134,7 @@ namespace CacheManager.Core.Internal
                 var newItem = original.WithCreatedAndValue(original.CreatedUtc, newValue);
                 //Console.WriteLine($"new *******{original.CreatedUtc}********");
                 newItem.LastAccessedUtc = DateTime.UtcNow;
-                Console.WriteLine(newItem.CreatedUtc);
+                //Console.WriteLine(newItem.CreatedUtc);
                 Put(newItem);
                 return UpdateItemResult.ForSuccess(newItem);
             }

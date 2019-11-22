@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Globalization;
+using System.Linq;
 using System.Runtime.Caching;
 using CacheManager.Core;
 using CacheManager.Core.Internal;
@@ -85,6 +87,7 @@ namespace CacheManager.SystemRuntimeCaching
         /// <value>The count.</value>
         public override int Count => (int)_cache.GetCount();
 
+        
         /// <inheritdoc />
         protected override ILogger Logger { get; }
 
