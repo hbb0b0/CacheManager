@@ -13,9 +13,9 @@ namespace CacheManager.MySample
         static void Main(string[] args)
         {
             //MultiThread();
-            //GetCacheData();
+            GetInternalData();
             //UpdateForSlidingExpireTime();
-            UpdateForAbsoluteExpireTime();
+            //UpdateForAbsoluteExpireTime();
             Console.Read();
         }
 
@@ -48,7 +48,7 @@ namespace CacheManager.MySample
             }
         }
 
-        public static void GetCacheData()
+        public static void GetInternalData()
         {
             const int MAXCOUNTER = 1000;
 

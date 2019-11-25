@@ -73,7 +73,11 @@ namespace CacheManager.Core.Internal
         /// GetInternalData
         /// </summary>
         /// <returns></returns>
-        public abstract List<KeyValuePair<string, CacheItem<TCacheValue>>> GetInternalData();
+        //public abstract List<KeyValuePair<string, CacheItem<TCacheValue>>> GetInternalData();
+        //20191125修改为虚方法不需要强制子类实现，子类可以选择是否实现
+        public virtual List<KeyValuePair<string, CacheItem<TCacheValue>>> GetInternalData() {
+            return null;
+        }
 
         /// <summary>
         /// Gets the cache stats object.

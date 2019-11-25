@@ -6,7 +6,8 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <PackageTags>Caching;Cache;CacheManager;Serialization;DataContract</PackageTags>    
-    <Authors>rebulanyum, MichaConrad</Authors>
+    <Authors>rebulanyum, MichaConrad</Authors>    
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\CacheManager.Core\CacheManager.Core.csproj" />

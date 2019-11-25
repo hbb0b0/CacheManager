@@ -54,7 +54,9 @@ namespace CacheManager.Config.Tests
                         .WithDatabase(0)
                         .WithConnectionTimeout(5000)
                         .EnableKeyspaceEvents()
-                        .WithEndpoint("127.0.0.1", 6379);
+                        .WithEndpoint("127.0.0.1", 6379)
+                        .WithPassword("123456")
+                        ;
                 });
 
                 //builder.WithRedisConfiguration("redis", "localhost:22121");
